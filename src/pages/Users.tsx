@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { User } from '../types'
+import { apiFetch } from '../api'
 
 export default function Users() {
   const [users, setUsers] = useState<User[]>([])
@@ -11,7 +12,7 @@ export default function Users() {
   useEffect(() => { loadUsers() }, [])
 
   async function loadUsers() {
-    const res = await fetch('/api/users')
+    const res = await apiFetch('/api/users')
     const data: User[] = await res.json()
     setUsers(data)
     setLoading(false)
@@ -23,7 +24,7 @@ export default function Users() {
 
   async function handleAdd(e: React.FormEvent) {
     e.preventDefault()
-    const res = await fetch('/api/users', {
+    const res = await apiFetch('/api/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newUser)
@@ -40,7 +41,7 @@ export default function Users() {
 
   async function handleDelete(id: number) {
     if (!confirm('Delete this user?')) return
-    await fetch(`/api/users/${id}`, { method: 'DELETE' })
+    await apiFetch(`/api/users/${id}`, { method: 'DELETE' })
     loadUsers()
   }
 
@@ -52,7 +53,7 @@ export default function Users() {
   async function handleEditSave(e: React.FormEvent) {
     e.preventDefault()
     if (!editUser) return
-    const res = await fetch(`/api/users/${editUser.id}`, {
+    const res = await apiFetch(`/api/users/${editUser.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: editUser.name, email: editUser.email })

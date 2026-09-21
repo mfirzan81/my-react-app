@@ -1,12 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
+import { apiFetch } from '../api'
 
 export default function Navbar() {
   const { user, setUser } = useAuth()
   const navigate = useNavigate()
 
   async function handleLogout() {
-    await fetch('/api/logout', { method: 'POST' })
+    await apiFetch('/api/logout', { method: 'POST' })
     setUser(null)
     navigate('/login')
   }

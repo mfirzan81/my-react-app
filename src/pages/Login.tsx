@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
 import { Account } from '../types'
+import { apiFetch } from '../api'
 
 export default function Login() {
   const [form, setForm] = useState({ username: '', password: '' })
@@ -15,7 +16,7 @@ export default function Login() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    const res = await fetch('/api/login', {
+    const res = await apiFetch('/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form)

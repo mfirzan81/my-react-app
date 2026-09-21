@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 import { Account } from './types'
+import { apiFetch } from './api'
 
 interface AuthContextType {
   user: Account | null | undefined
@@ -12,7 +13,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<Account | null | undefined>(undefined)
 
   useEffect(() => {
-    fetch('/api/me')
+    apiFetch('/api/me')
       .then(r => r.json())
       .then(data => setUser(data.user))
   }, [])
